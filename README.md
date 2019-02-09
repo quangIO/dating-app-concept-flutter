@@ -9,7 +9,7 @@ For help getting started with Flutter, view Flutter's online
 [documentation](https://flutter.io/).
 
 ### Setup Mapbox API
-The local.properties should be something contain accessToken from Mapbox
+The local.properties should contain accessToken from Mapbox
 
 ```
 ...
