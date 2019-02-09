@@ -1,9 +1,20 @@
+import 'package:datingsample/screen/ProfileScreen.dart';
 import 'package:flutter/material.dart';
 
 class ProfileItem extends StatefulWidget {
   final Map<String, dynamic> user;
 
-  const ProfileItem({Key key, this.user}) : super(key: key);
+  const ProfileItem({Key key, @required this.user}) : super(key: key);
+
+  factory ProfileItem.forDesignTime() {
+    // TODO: add arguments
+    return new ProfileItem(user: {
+      'name': 'Haha',
+      'title': 'CEO',
+      'image':
+          'https://www.seducewithpersonality.com/wp-content/uploads/2013/08/Tests-from-women.jpg'
+    });
+  }
 
   @override
   _ProfileItemState createState() => _ProfileItemState();
@@ -11,11 +22,18 @@ class ProfileItem extends StatefulWidget {
 
 class _ProfileItemState extends State<ProfileItem> {
   Widget _buildAvatarPicture() {
-    return Container(
-      child: Image.network(
-        "https://www.seducewithpersonality.com/wp-content/uploads/2013/08/Tests-from-women.jpg",
-        fit: BoxFit.fill,
+    return Hero(
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              colors: const [Colors.black26, Colors.transparent],
+              begin: Alignment.topCenter,
+              end: const Alignment(.0, -.3)),
+        ),
+        position: DecorationPosition.foreground,
+        child: Image.network(widget.user['image']),
       ),
+      tag: 'image-${widget.user['name']}',
     );
   }
 
@@ -25,16 +43,19 @@ class _ProfileItemState extends State<ProfileItem> {
       padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 8.0),
       child: FittedBox(
         fit: BoxFit.fitWidth,
-        child: Text(
-          "Mai Phuong Thuy Tien",
-          style: TextStyle(color: Colors.purpleAccent, fontSize: 32.0),
+        child: Hero(
+          child: Text(
+            widget.user['name'],
+            style: TextStyle(color: Colors.blueGrey, fontSize: 32.0),
+          ),
+          tag: 'name-${widget.user['name']}',
         ),
       ),
     );
     final title = Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+      padding: const EdgeInsets.only(left: 12.0, right: 12.0, bottom: 8.0),
       child: Text(
-        "CEO at Rudicaf",
+        widget.user['title'],
         style: TextStyle(fontSize: 12.0),
       ),
     );
@@ -45,7 +66,10 @@ class _ProfileItemState extends State<ProfileItem> {
           type: MaterialType.card,
           child: Column(
             children: <Widget>[
-              Flexible(child: _buildAvatarPicture(), flex: 1,),
+              Flexible(
+                child: _buildAvatarPicture(),
+                flex: 1,
+              ),
               Divider(color: Colors.transparent),
               name,
               title,
@@ -56,6 +80,14 @@ class _ProfileItemState extends State<ProfileItem> {
           shadowColor: Colors.black54,
         ),
       ),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProfileScreen(user: widget.user),
+          ),
+        );
+      },
     );
   }
 }

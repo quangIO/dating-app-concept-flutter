@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MapMarker extends StatelessWidget {
+  const MapMarker({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Material(

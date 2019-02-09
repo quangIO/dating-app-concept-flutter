@@ -16,6 +16,7 @@ class CustomPageView extends StatefulWidget {
   final bool dismissibleItems;
 
   final int itemCount;
+  final Function(int) onPageChanged;
 
   const CustomPageView({
     @required this.itemBuilder,
@@ -24,7 +25,7 @@ class CustomPageView extends StatefulWidget {
     this.viewportFraction: .85,
     this.height: 525,
     this.width: 700,
-    @required this.itemCount,
+    @required this.itemCount, this.onPageChanged,
   }) : assert(itemBuilder != null);
 
   @override
@@ -56,6 +57,7 @@ class _CoverFlowState extends State<CustomPageView> {
             _pageHasChanged = true;
             currentPage = value;
           });
+          widget.onPageChanged(value);
         },
         controller: controller,
         itemCount: widget.itemCount,
